@@ -1,5 +1,4 @@
 # CipherStream-J-Live
-# CipherStream J-Live
 ### *Bridging Java’s Robustness with Python’s Agility*
 
 **CipherStream J-Live** is a personal privacy tool designed to keep your digital notes secure. Developed as part of an MCA Data Science journey, this project moves away from "black box" security and brings the encryption process to life through a modern web interface.
