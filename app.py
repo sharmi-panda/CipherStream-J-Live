@@ -87,42 +87,51 @@ if st.button("Lock Vault"):
             st.pyplot(fig)
 
 # Decryption Section
-# Decryption Section
 st.divider()
 st.subheader("Unlock an Existing Vault")
-st.caption("Upload your files to restore the original message.")
 
+# 1. Place uploaders outside of any columns if possible, or ensure they are always rendered
 col_up1, col_up2 = st.columns(2)
 with col_up1:
-    up_key = st.file_uploader("Upload 'vault.key'", type=["key", "txt"], key="key_uploader")
+    # Adding a unique 'key' helps Streamlit maintain the state
+    up_key = st.file_uploader("Upload 'vault.key'", type=["key", "txt"], key="key_input")
 with col_up2:
-    up_enc = st.file_uploader("Upload 'message.enc'", type=["enc", "txt"], key="enc_uploader")
+    up_enc = st.file_uploader("Upload 'message.enc'", type=["enc", "txt"], key="enc_input")
 
+# 2. Check if the button was clicked
 if st.button("Restore Original Message"):
-    # Fix: Ensure variables exist before checking them
+    # 3. Use 'is not None' for absolute clarity
     if up_key is not None and up_enc is not None:
+        base_path = os.getcwd() # Simplified for Cloud
+        
         try:
-            # 1. Save uploaded files to the server's current folder
-            with open("vault.key", "wb") as f:
+            # Save files
+            with open(os.path.join(base_path, "vault.key"), "wb") as f:
                 f.write(up_key.getbuffer())
-            with open("encrypted.txt", "wb") as f:
+            with open(os.path.join(base_path, "encrypted.txt"), "wb") as f:
                 f.write(up_enc.getbuffer())
                 
-            # 2. Run Java Decryption
-            with st.spinner("Java is unlocking the vault..."):
-                subprocess.run(["java", "-cp", "src", "FileCipher", "decrypt"], check=True)
+            with st.spinner("Unlocking..."):
+                result = subprocess.run(
+                    ["java", "-cp", "src", "FileCipher", "decrypt"],
+                    capture_output=True,
+                    text=True,
+                    cwd=base_path
+                )
             
-            # 3. Check if the output file exists
-            if os.path.exists("decrypted_result.txt"):
-                with open("decrypted_result.txt", "r", encoding="utf-8", errors="ignore") as d:
-                    decoded_msg = d.read()
-                
-                st.success("Vault Unlocked Successfully!")
-                st.text_area("Decrypted Content:", value=decoded_msg, height=150)
+            if result.returncode != 0:
+                st.error(f"Java Error: {result.stderr}")
             else:
-                st.error("Error: Java engine failed to create the decrypted file.")
-                
+                result_file = os.path.join(base_path, "decrypted_result.txt")
+                if os.path.exists(result_file):
+                    with open(result_file, "r", encoding="utf-8", errors="ignore") as d:
+                        content = d.read()
+                        st.success("Vault Unlocked!")
+                        st.text_area("Decrypted Content:", value=content, height=150)
+                else:
+                    st.error("Decryption failed: Java did not create the result file.")
         except Exception as e:
-            st.error(f"An error occurred during decryption: {e}")
+            st.error(f"System Error: {e}")
     else:
-        st.warning("Action Required: Please upload BOTH 'vault.key' and 'message.enc' first.")
+        # This triggers if the user clicks the button BEFORE uploading both files
+        st.warning("Please upload both the 'vault.key' and the '.enc' file first.")
