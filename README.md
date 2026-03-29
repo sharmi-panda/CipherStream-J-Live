@@ -1,56 +1,63 @@
-# CipherStream-J-Live
-### *Bridging Java’s Robustness with Python’s Agility*
+# CipherStream Pro: Universal Byte-Level Vault
 
-**CipherStream J-Live** is a personal privacy tool designed to keep your digital notes secure. Developed as part of an MCA Data Science journey, this project moves away from "black box" security and brings the encryption process to life through a modern web interface.
-
-
-## The Vision
-Most encryption tools are either too complex for everyday use or too hidden in a terminal for a user to understand. **CipherStream** changes that by providing:
-* **Visual Feedback:** See your message transform into a secret code in real-time.
-* **Hybrid Power:** The speed and safety of **Java** combined with the intuitive interface of **Streamlit**.
-* **Total Privacy:** Your data never leaves your computer. No cloud, no tracking—just local, mathematical security.
+**CipherStream Pro** is a hybrid cryptographic application that bridges **Java's high-performance backend** with a **Streamlit Data Science frontend**. Unlike standard ciphers that only handle English text, this "Universal Vault" uses byte-level manipulation to secure anything from simple sentences to complex emojis and multi-language scripts.
 
 
-## How it Works
-The application functions as a conversation between two different programming worlds:
+## Key Features
+* **Hybrid Architecture:** Seamless integration between Python (UI) and Java (Encryption Engine) using the JVM Bridge.
+* **Universal Compatibility:** Uses **Modulo 256** byte-shifting, allowing support for Emojis 🚀, symbols, and non-English characters.
+* **Security Analytics:** Built-in **Frequency Analysis** dashboard to visualize the statistical distribution of encrypted data.
+* **Physical Key Infrastructure:** Generates unique `.key` files, mimicking real-world two-factor authentication.
+* **Hexadecimal Inspection:** View the "Digital Fingerprint" of your data at the lowest machine level.
 
-1.  **The Interface (Python):** Collects your private thoughts and your "Secret Shift Key."
-2.  **The Bridge (Subprocess):** Python securely passes these instructions to the Java Virtual Machine.
-3.  **The Engine (Java):** Our "Brain" processes the text using a custom **Modulo 26** algorithm, ensuring that every letter wraps perfectly from Z back to A.
-4.  **The Vault (Local I/O):** The results are saved as physical files on your machine, which you can download and keep.
+
+## Technical Architecture
+The project follows a modular design to ensure high performance and clean UI:
+
+1.  **Frontend (Python):** Streamlit handles the user interface, session memory, and data visualization (Pandas/Matplotlib).
+2.  **Bridge (Subprocess):** Python executes Java commands in the background to process files without blocking the UI.
+3.  **Backend (Java):** A robust `FileCipher` engine that performs raw byte-stream transformations for maximum security.
+
+
 
 
 ## Getting Started
 
 ### Prerequisites
-* **Java JDK 17+** (The Engine)
-* **Python 3.10+** (The Interface)
+* **Java JDK** (version 8 or higher)
+* **Python 3.8+**
+* **Libraries:** `pip install streamlit pandas matplotlib`
 
-### Installation & Launch
-1.  **Compile the Java Engine:**
+### Installation & Usage
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/your-username/CipherStream-Pro.git](https://github.com/your-username/CipherStream-Pro.git)
+    cd CipherStream-Pro
+    ```
+2.  **Compile the Engine:**
     ```bash
     javac src/FileCipher.java
-    ```
-2.  **Install Python Dependencies:**
-    ```bash
-    pip install -r requirements.txt
     ```
 3.  **Launch the App:**
     ```bash
     streamlit run app.py
     ```
 
-## Technical Milestones
-Building this project was a deep dive into the fundamentals of software engineering:
-* **Interoperability:** Managing cross-language communication between Python and Java.
-* **Data Integrity:** Using `FileInputStream` and `FileOutputStream` to ensure byte-perfect data handling.
-* **Human-Centered Design:** Crafting an interface that makes complex math feel like a simple "Lock & Key" experience.
+## Data Science in Security
+This project goes beyond coding by providing **Security Audits**. By analyzing the frequency of byte occurrences, users can observe the "Entropy" of the cipher. 
+
+
+
+* **Observation:** A more uniform distribution in the bar chart indicates a stronger scramble.
+* **Methodology:** Every character is mapped to an 8-bit value (0-255) and shifted using a randomly generated secret key.
+
+
 
 
 ## Future Roadmap
-* **Phrase-Based Keys:** Moving from numbers to "Secret Passwords."
-* **Image Encryption:** Applying the same logic to protect visual data.
-* **Advanced Algorithms:** Implementing AES-256 for industrial-grade security.
+* Upgrade to **AES-256** Symmetric Encryption for banking-grade security.
+* Integrate **Biometric Authentication** using Python's OpenCV for vault access.
+* Cloud-based Key Management using **Google Firestore** or **Supabase**.
 
 
-**Developed as part of the MCA Data Science curriculum.**
+**Developed by Sharmila | MCA Data Science**
