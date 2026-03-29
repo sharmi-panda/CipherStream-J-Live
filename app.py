@@ -87,29 +87,42 @@ if st.button("Lock Vault"):
             st.pyplot(fig)
 
 # Decryption Section
+# Decryption Section
 st.divider()
 st.subheader("Unlock an Existing Vault")
 st.caption("Upload your files to restore the original message.")
 
 col_up1, col_up2 = st.columns(2)
 with col_up1:
-    up_key = st.file_uploader("Upload 'vault.key'", type=["key", "txt"])
+    up_key = st.file_uploader("Upload 'vault.key'", type=["key", "txt"], key="key_uploader")
 with col_up2:
-    up_enc = st.file_uploader("Upload 'message.enc'", type=["enc", "txt"])
+    up_enc = st.file_uploader("Upload 'message.enc'", type=["enc", "txt"], key="enc_uploader")
 
 if st.button("Restore Original Message"):
-    if up_key and up_enc:
-        with open("vault.key", "wb") as f:
-            f.write(up_key.getbuffer())
-        with open("encrypted.txt", "wb") as f:
-            f.write(up_enc.getbuffer())
+    # Fix: Ensure variables exist before checking them
+    if up_key is not None and up_enc is not None:
+        try:
+            # 1. Save uploaded files to the server's current folder
+            with open("vault.key", "wb") as f:
+                f.write(up_key.getbuffer())
+            with open("encrypted.txt", "wb") as f:
+                f.write(up_enc.getbuffer())
+                
+            # 2. Run Java Decryption
+            with st.spinner("Java is unlocking the vault..."):
+                subprocess.run(["java", "-cp", "src", "FileCipher", "decrypt"], check=True)
             
-        subprocess.run(["java", "-cp", "src", "FileCipher", "decrypt"])
-        
-        with open("decrypted_result.txt", "r", encoding="utf-8", errors="ignore") as d:
-            decoded_msg = d.read()
-            
-        st.success("Vault Unlocked!")
-        st.text_area("Decrypted Content:", value=decoded_msg, height=100)
+            # 3. Check if the output file exists
+            if os.path.exists("decrypted_result.txt"):
+                with open("decrypted_result.txt", "r", encoding="utf-8", errors="ignore") as d:
+                    decoded_msg = d.read()
+                
+                st.success("Vault Unlocked Successfully!")
+                st.text_area("Decrypted Content:", value=decoded_msg, height=150)
+            else:
+                st.error("Error: Java engine failed to create the decrypted file.")
+                
+        except Exception as e:
+            st.error(f"An error occurred during decryption: {e}")
     else:
-        st.warning("Please upload both files.")
+        st.warning("Action Required: Please upload BOTH 'vault.key' and 'message.enc' first.")
