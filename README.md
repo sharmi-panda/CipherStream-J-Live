@@ -54,7 +54,7 @@ This project goes beyond coding by providing **Security Audits**. By analyzing t
 
 
 
-## Future Roadmap
+## Future Scope
 * Upgrade to **AES-256** Symmetric Encryption for banking-grade security.
 * Integrate **Biometric Authentication** using Python's OpenCV for vault access.
 * Cloud-based Key Management using **Google Firestore** or **Supabase**.
