@@ -1,4 +1,4 @@
-# CipherStream Pro: Universal Byte-Level Vault
+# CipherStream Pro: Byte-Level Vault
 
 **CipherStream Pro** is a hybrid cryptographic application that bridges **Java's high-performance backend** with a **Streamlit Data Science frontend**. Unlike standard ciphers that only handle English text, this "Universal Vault" uses byte-level manipulation to secure anything from simple sentences to complex emojis and multi-language scripts.
 
