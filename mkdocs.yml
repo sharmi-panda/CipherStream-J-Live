@@ -1,0 +1,13 @@
+site_name: CipherStream Pro Docs
+site_description: User documentation for CipherStream Pro, a Java and Streamlit byte-level cipher app.
+site_url: https://sharmi-panda.github.io/CipherStream-J-Live/
+repo_url: https://github.com/sharmi-panda/CipherStream-J-Live
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Use the app: using-the-app.md
+  - Getting started: getting-started.md
+markdown_extensions:
+  - admonition
+  - attr_list
